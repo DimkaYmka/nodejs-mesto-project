@@ -46,7 +46,7 @@ export const createCard = (req: AuthRequest, res: Response, next: NextFunction) 
   }
 
   cardSchema.create({ name, link, owner: req.user._id })
-    .then((card: ICard) => res.send(card))
+    .then((card: ICard) => res.status(201).send(card)) // Возвращаем статус 201
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Введены неверные данные'));

@@ -47,7 +47,10 @@ export const createUser = (req: Request, res: Response, next: NextFunction) => {
     .then((hashedPassword: string) => {
       return userSchema.create({ ...req.body, password: hashedPassword });
     })
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      // Возвращаем статус 201 и данные пользователя
+      res.status(201).send({ data: user });
+    })
     .catch((err: any) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Переданы некорректные данные.'));
